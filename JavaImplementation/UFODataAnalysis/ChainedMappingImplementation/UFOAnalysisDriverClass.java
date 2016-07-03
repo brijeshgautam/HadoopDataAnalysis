@@ -13,6 +13,11 @@ public class UFOAnalysisDriverClass {
     public static void main(String[] args) throws Exception
     {
 
+        if ( args.length < 2)
+        {
+          System.out.println("Usage : input-file output-directory");
+          System.exit(0);
+        }
         Job job = Job.getInstance();
         Configuration config = new Configuration(false) ;
         ChainMapper.addMapper(job, UFORecordValidationMapper.class, LongWritable.class,
