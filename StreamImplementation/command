@@ -1,0 +1,1 @@
+hadoop jar /usr/hdp/2.4.0.0-169/hadoop-mapreduce/hadoop-streaming.jar   -mapper mapper_shape_time.py    -reducer reducer_shape_time.py  -file ./mapper_shape_time.py   -file  ./reducer_shape_time.py   -input /usr/bgautam/input/sightings.txt  -output /usr/bgautam/outputUfo
