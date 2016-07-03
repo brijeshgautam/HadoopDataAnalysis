@@ -27,7 +27,8 @@ for line in sys.stdin:
        elif max < time :
            max = time 
     else:
-       print shape ,'\t',min,'\t',max,'\t',total/float(count)
+       #print shape ,'\t',min,'\t',max,'\t',total/float(count)
+       print shape ,'\t',min,'\t',max,'\t',total/float(count),'\t', total, '\t',count
        current = shape 
        min = time 
        max = time 
@@ -35,5 +36,5 @@ for line in sys.stdin:
        count = 1 
     
 if current != None :
-     print shape ,'\t',min,'\t',max,'\t',total/float(count)
+     print shape ,'\t',min,'\t',max,'\t',total/float(count),'\t', total, '\t',count
    
