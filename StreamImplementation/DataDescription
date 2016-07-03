@@ -1,0 +1,8 @@
+The implementation is part of Hadoop Beginner's Guide example. UFO  database comprises a series of UFO sighting records with the following fields: 
+
+1. Sighting date: This field gives the date when the UFO sighting occurred.
+2. Recorded date: This field gives the date when the sighting was reported, often different to the sighting date.
+3. Location: This field gives the location where the sighting occurred.
+4. Shape: This field gives a brief summary of the shape of the UFO, for example, diamond, lights, cylinder.
+5. Duration: This field gives the duration of how long the sighting lasted.
+6. Description: This field gives free text details of the sighting.
