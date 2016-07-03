@@ -4,9 +4,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import  java.io.IOException;
 
-/**
- * Created by ANIMESH on 02-07-2016.
- */
 public class GetMinMaxMeanReducer extends Reducer<Text, LongWritable,Text,Text> {
     public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException
     {

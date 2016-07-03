@@ -1,4 +1,3 @@
-
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -9,9 +8,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-/**
- * Created by ANIMESH on 02-07-2016.
- */
 public class UFOAnalysisDriverClass {
 
     public static void main(String[] args) throws Exception

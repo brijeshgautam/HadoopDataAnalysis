@@ -1,7 +1,3 @@
-
-/**
- * Created by ANIMESH on 02-07-2016.
- */
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.Mapper;
 
