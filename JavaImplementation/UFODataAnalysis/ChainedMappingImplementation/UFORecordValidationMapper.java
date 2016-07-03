@@ -1,3 +1,7 @@
+/**
+* This class validates UFO records . After spliting the record , it checks where 6 fields are present in the current record.
+*/
+
 import java.io.IOException;
 import org.apache.hadoop.io.* ;
 import org.apache.hadoop.mapreduce.Mapper;
