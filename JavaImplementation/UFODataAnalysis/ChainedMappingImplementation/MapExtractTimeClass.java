@@ -8,12 +8,12 @@ import java.util.regex.Matcher;
 
 public class MapExtractTimeClass extends Mapper<LongWritable, Text, Text, LongWritable> {
 
-        private static Pattern durationPattern = Pattern.compile ("(\\d+)\\s+((min)|(sec)|(hour))") ;
+        private static Pattern durationPattern = Pattern.compile ("(\\d+)\\s+((min)|(sec)|(hour))", Pattern.CASE_INSENSITIVE) ;
 
         public void map(LongWritable key, Text value, Context context) throws IOException,InterruptedException
         {
             String line = value.toString();
-            String[] fields = line.split("\t") ;
+            String[] fields = line.split("\\t") ;
             String shape = fields[3].trim() ;
             String duration = fields[4].trim();
 

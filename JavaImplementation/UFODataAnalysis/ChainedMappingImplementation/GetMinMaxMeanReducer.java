@@ -19,7 +19,7 @@ public class GetMinMaxMeanReducer extends Reducer<Text, LongWritable,Text,Text> 
             if (maxDuration < val.get()){
                 maxDuration = val.get();
             }
-            else if (val.get() < minDuration){
+            if (val.get() < minDuration){
                 minDuration = val.get();
             }
         }

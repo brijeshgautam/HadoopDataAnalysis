@@ -17,7 +17,7 @@ public class UFORecordValidationMapper extends  Mapper<LongWritable, Text, LongW
     }
 
     private boolean validate(String str){
-        String[] parts = str.split("\t") ;
+        String[] parts = str.split("\\t") ;
         if (parts.length != 6)return false ;
         return true ;
     }
