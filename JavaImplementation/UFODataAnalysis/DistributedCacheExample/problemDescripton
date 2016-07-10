@@ -1,0 +1,1 @@
+This programme illustrates usage of distribute cache in hadoop . File which need to be cached is mapping of US state  abbreviation to state fullname. 
