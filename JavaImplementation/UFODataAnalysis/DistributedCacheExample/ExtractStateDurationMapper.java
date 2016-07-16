@@ -6,22 +6,33 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.*;
-import  org.apache.hadoop.fs.Path;
+import java.net.URI;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.filecache.DistributedCache;
+
 public class ExtractStateDurationMapper extends Mapper<LongWritable, Text, Text, LongWritable> {
     Pattern stateRegex = Pattern.compile( ".*,\\s*([a-zA-Z]{2}).*");
     Pattern durationRegex =  Pattern.compile("(\\d+)\\s+((min)|(sec)|(hour))", Pattern.CASE_INSENSITIVE) ;
     private  Map <String, String> stateNames ;
 
-    public void configure (Job job){
-        try {
+    public void setup (Context context ){
+	try {
 
-               Path []cacheFile = job.getLocalCacheFiles();
-               setupStateMap(cacheFile[0].toString());
-        }
+	    Path []cacheFile = DistributedCache.getLocalCacheFiles(context.getConfiguration());
+	    if( cacheFile != null)
+	    {
+		setupStateMap(cacheFile[0]);
+	    }
+	    else {
+		System.exit(1);
+	    }
+	}
         catch(FileNotFoundException e){
             System.err.println("Cache File is not found");
             System.exit(1);
@@ -31,16 +42,22 @@ public class ExtractStateDurationMapper extends Mapper<LongWritable, Text, Text,
             System.exit(1);
         }
     }
-    private  void setupStateMap(String fileName) throws FileNotFoundException, IOException{
-        Map<String, String> state = new HashMap<String, String>();
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        String line = null;
-        while ((line = br.readLine()) != null){
-            String []split = line.split("\\t");
-            state.put(split[0].trim().toUpperCase(), split[1].trim());
-        }
-        stateNames =state;
+
+    private  void setupStateMap(Path stateFilePath) throws FileNotFoundException, IOException{
+	stateNames = new HashMap<String, String>();
+
+	try{
+	    BufferedReader bufferedReader = new BufferedReader(new FileReader(stateFilePath.toString()));
+	    String line = null;
+	    while((line = bufferedReader.readLine()) != null) {
+		String []split = line.split("\\t");
+		stateNames.put(split[0].trim().toUpperCase(), split[1].trim());
+	    }
+	} catch(IOException ex) {
+	    System.err.println("Exception while reading stop words file: " + ex.getMessage());
+	}
     }
+
 
     public void map( LongWritable key, Text text, Context context)throws IOException, InterruptedException{
 
