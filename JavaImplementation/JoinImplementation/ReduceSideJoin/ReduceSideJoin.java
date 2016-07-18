@@ -1,5 +1,3 @@
-package Chap4.Chap5.JoinExample;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -11,7 +9,6 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import  org.apache.hadoop.io.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +16,6 @@ import java.util.List ;
 import java.util.Objects;
 import java.lang.String;
 
-/**
- * Created by ANIMESH on 17-07-2016.
- */
 public class ReduceSideJoin {
       private static  String [] ConcatenateStrings(String []str1 , String []str2)
       {
@@ -39,14 +33,14 @@ public class ReduceSideJoin {
       }
       private static  String joinedStringsWithDelim(String delim , String []strArr)
       {
-          String retString = null;
-          retString  = new String (strArr[0]);
+          StringBuffer retString = null;
+          retString  = new StringBuffer (strArr[0]);
           for ( int  count =  1 ; count < strArr.length ; count++)
           {
-             retString [index++] = delim;
-             retString [index++] = strArr[count];
+             retString.append("\t"); 
+             retString.append(strArr[count]); 
           }
-          return retString ;
+          return new String (retString) ;
       }
 
   private static  class  CombinePersonalEmploymentInfo extends Reducer< Text, Iterable<Text> , Text, Text>{
@@ -73,7 +67,7 @@ public class ReduceSideJoin {
       public void map(LongWritable key, Text value , Context context)throws IOException, InterruptedException{
           String record = value.toString();
           String  split[] =  record.split("\t");
-          context.write( new Text(split[0]) , new Text ("Personal" + "\t" + String.join("\t", Arrays.copyOfRange(split, 1, split.length))) );
+          context.write( new Text(split[0]) , new Text ("Personal" + "\t" + joinedStringsWithDelim("\t", Arrays.copyOfRange(split, 1, split.length))) );
       }
     }
 
@@ -81,14 +75,14 @@ public class ReduceSideJoin {
         public  void map(LongWritable key, Text value , Context context) throws IOException, InterruptedException{
             String record = value.toString();
             String  split[] =  record.split("\t");
-            context.write( new Text(split[0]) , new Text ("Employ" + "\t" + String.join("\t", Arrays.copyOfRange(split, 1, split.length))) );
+            context.write( new Text(split[0]) , new Text ("Employ" + "\t" + joinedStringsWithDelim("\t", Arrays.copyOfRange(split, 1, split.length))) );
         }
     }
 
     public static void main (String []args ) throws IOException, InterruptedException, ClassNotFoundException{
 
         if ( args .length != 3){
-            System.err.println("required arguments are missing . Please specify input file1 , input file 2 and output file path");
+            System.err.println("required arguments are missing . Please specify personal info file , Employment info file and output file path");
             System.exit(1);
         }
         Job job = Job.getInstance();
