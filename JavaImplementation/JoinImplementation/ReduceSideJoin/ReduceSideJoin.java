@@ -15,8 +15,10 @@ import java.util.Arrays;
 import java.util.List ;
 import java.util.Objects;
 import java.lang.String;
+import org.apache.hadoop.mapreduce.Counter;
 
 public class ReduceSideJoin {
+      public     enum LogCounter {TOTAL_LOG, TOTAL_PRS, TOTAL_EMPL };
       private static  String [] ConcatenateStrings(String []str1 , String []str2)
       {
           String retString [] = new String [str1.length + str2.length];
@@ -26,7 +28,7 @@ public class ReduceSideJoin {
           }
           for ( int  count =  0 ; count < str2.length ; count++)
           {
-             retString [str1.length + count] = str1[count];
+             retString [str1.length + count] = str2[count];
           }
           return retString ;
 
@@ -37,45 +39,58 @@ public class ReduceSideJoin {
           retString  = new StringBuffer (strArr[0]);
           for ( int  count =  1 ; count < strArr.length ; count++)
           {
-             retString.append("\t"); 
+             retString.append(delim); 
              retString.append(strArr[count]); 
           }
           return new String (retString) ;
       }
 
-  private static  class  CombinePersonalEmploymentInfo extends Reducer< Text, Iterable<Text> , Text, Text>{
-        public void  reduce(Text key , Iterable<Text>values, Context context) throws  IOException, InterruptedException{
-
-            String []PersonalInfo= null;
-            String []EmploymentInfo = null;
-            for ( Text value : values){
-                String []splits= value.toString().split("\t");
-                if (splits[0].equals("Personal")){
-                  PersonalInfo = Arrays.copyOfRange(splits, 1 , splits.length);
-                }
-                else {
-                    EmploymentInfo = Arrays.copyOfRange(splits, 1, splits.length);
-                }
-            }
-            String []joinedString = ConcatenateStrings(PersonalInfo, EmploymentInfo);
-            String strOutput = joinedStringsWithDelim("\t", joinedString);
-            context.write(key, new Text(strOutput ));
-        }
+  public static  class  CombinePersonalEmploymentInfo2 extends Reducer< Text, Text , Text, Text>{
+      @Override
+      public void  reduce(Text key , Iterable<Text> values, Context context) throws  IOException, InterruptedException{
+	  String []PersonalInfo= null;
+	  String []EmploymentInfo = null;
+	  for ( Text value : values){
+	      String []splits= value.toString().split(",");
+	      if (splits[0].equals("Personal")){
+		  PersonalInfo = Arrays.copyOfRange(splits, 1 , splits.length);
+	      }
+	      else {
+		  EmploymentInfo = Arrays.copyOfRange(splits, 1, splits.length);
+	      }
+	  }
+	  String []joinedString = ConcatenateStrings(PersonalInfo, EmploymentInfo);
+	  String strOutput = joinedStringsWithDelim(",", joinedString);
+	  Counter counter = context.getCounter(LogCounter.class.getName(),
+		  LogCounter.TOTAL_LOG.toString());
+	  counter.increment(1);
+	  context.write(key, new Text(strOutput ));
+      }
   }
 
-    private static class PersonalInfoMapper extends Mapper <LongWritable , Text, Text, Text> {
+    public  static class PersonalInfoMapper extends Mapper <LongWritable , Text, Text, Text> {
       public void map(LongWritable key, Text value , Context context)throws IOException, InterruptedException{
           String record = value.toString();
-          String  split[] =  record.split("\t");
-          context.write( new Text(split[0]) , new Text ("Personal" + "\t" + joinedStringsWithDelim("\t", Arrays.copyOfRange(split, 1, split.length))) );
+          String  split[] =  record.split(",");
+          Text  txt = new Text ("Personal" + "," + joinedStringsWithDelim(",", Arrays.copyOfRange(split, 1, split.length))); 
+          String str = txt.toString();
+          context.write( new Text(split[0].trim()) ,txt );
+	  Counter counter = context.getCounter(LogCounter.class.getName(),
+		  LogCounter.TOTAL_PRS.toString());
+	  counter.increment(1);
       }
     }
 
-    private  static class  EmploymentInfoMapper extends  Mapper<LongWritable, Text, Text, Text>{
+    public  static class  EmploymentInfoMapper extends  Mapper<LongWritable, Text, Text, Text>{
         public  void map(LongWritable key, Text value , Context context) throws IOException, InterruptedException{
             String record = value.toString();
-            String  split[] =  record.split("\t");
-            context.write( new Text(split[0]) , new Text ("Employ" + "\t" + joinedStringsWithDelim("\t", Arrays.copyOfRange(split, 1, split.length))) );
+            String  split[] =  record.split(",");
+            Text txt = new Text ("Employ" + "," + joinedStringsWithDelim(",", Arrays.copyOfRange(split, 1, split.length)));
+            String str =  txt.toString();
+            context.write( new Text(split[0].trim()) ,txt);
+	  Counter counter = context.getCounter(LogCounter.class.getName(),
+		  LogCounter.TOTAL_EMPL.toString());
+	  counter.increment(1);
         }
     }
 
@@ -85,11 +100,11 @@ public class ReduceSideJoin {
             System.err.println("required arguments are missing . Please specify personal info file , Employment info file and output file path");
             System.exit(1);
         }
+        Configuration conf = new Configuration();
         Job job = Job.getInstance();
-        Configuration conf = job.getConfiguration();
         job.setJobName("Reduce side join illustration");
         job.setJarByClass(ReduceSideJoin.class);
-        job.setReducerClass(CombinePersonalEmploymentInfo.class);
+        job.setReducerClass(CombinePersonalEmploymentInfo2.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
