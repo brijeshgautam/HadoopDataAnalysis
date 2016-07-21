@@ -6,3 +6,7 @@ The implementation is part of Hadoop Beginner's Guide example. UFO  database com
 4. Shape: This field gives a brief summary of the shape of the UFO, for example, diamond, lights, cylinder.
 5. Duration: This field gives the duration of how long the sighting lasted.
 6. Description: This field gives free text details of the sighting.
+
+  In this Map-Reduce implementation,  Mapper extracts the  shape  type and  time of observation . Extracted time is in seconds. If dataset contains time in 
+minutes or in  hour, Mapper converts this time into seconds. Reducer   computes   for a given shape minimum, maximum, mean  time. It also computes total time  
+observed for a shape and  number of times given shape is observed. 
