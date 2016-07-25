@@ -1,0 +1,16 @@
+This programme computes distance of  each of the node in the graph from given starting node. Using counter mechanism in mapreduce framework, it computes distance in 
+iterative way until no change in counter is noticed.  Input to this program is specified in  following way : 
+
+node-id <tab-space> <comma-separeted-list of neighbours> < tab-space> <if starting node , then 0 as distance , for other node it is not specified> <tab-space>
+<State of node, for starting node, it will be specified as  C, for remaining node nodes not specified.>
+
+
+For example , atached  graph image , input file will be like : 
+
+1 2,3,4	0	C
+2	1,4
+3	1,5,6
+4	1,2
+5	3,6
+6	3,5
+7	6
