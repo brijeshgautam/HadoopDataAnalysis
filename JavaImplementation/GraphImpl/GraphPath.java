@@ -11,7 +11,10 @@ import  org.apache.hadoop.mapreduce.Counters;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
 
-
+/***
+ * Using counter mechanism , this program computes  distance of each node in the graph from given starting node.  This program terminates 
+ * when there  is no change is noticed. That means distance of each of accessible node from starting node has been computed. 
+ * **/
 public class GraphPath
 {
     public enum StateCounter {TOTAL_STATE_CHANGE};
