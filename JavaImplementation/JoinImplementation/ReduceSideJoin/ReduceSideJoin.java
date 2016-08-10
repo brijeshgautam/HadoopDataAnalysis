@@ -17,6 +17,14 @@ import java.util.Objects;
 import java.lang.String;
 import org.apache.hadoop.mapreduce.Counter;
 
+/***
+ * This programm illustrates Reduce side join. Content of Each input file is read and processed by separete mapper. For Personal info related 
+ * input data , mapper PersonalInfoMapper is used . Similarly for employment info , mapper EmploymentInfoMapper is used. Each of the mapper 
+ * emits employee-id as key along with tagged data. Reducer combine the data from both mapper and write to file system.This programme expects 
+ * comma separeted input files. First input file in  personal info file  and second input file in employment info file. 
+ *
+ ***/
+
 public class ReduceSideJoin {
       public     enum LogCounter {TOTAL_LOG, TOTAL_PRS, TOTAL_EMPL };
       private static  String [] ConcatenateStrings(String []str1 , String []str2)
