@@ -1,0 +1,17 @@
+Data for illustrating map-side join and reduce-side join is taken from http://www.fakenamegenerator.com/ .  Input  data consists of two
+csv file  , namely personal info of a employee and employment related info.  Key of each file is employee-id. Personal info file consists
+of following fields:
+
+GUID	Gender	Title	GivenName	Surname	StreetAddress	City	State	ZipCode	CountryFull
+
+Sample personal info data is  like : 
+db76940d-b609-4d19-ae3a-85f40717305a,female,Mrs.,Amy,Lee,758 Whitman Court,Norwalk,	CT,6851,United States
+
+
+Second Input data employment info consist of following fields. 
+
+GUID Occupation	Company	Vehicle	EmailAddress
+
+Sample employment info data is like : 
+db76940d-b609-4d19-ae3a-85f40717305a,Employment service specialist,Larry's Markets,2008 Mazda CX-7,AmyJLee@jourrapide.com
+
