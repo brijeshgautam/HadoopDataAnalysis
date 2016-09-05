@@ -1,0 +1,24 @@
+These implementation uses the Patent data sets for carrying out analysis. These Patent data sets are available from 
+the National Bureau of Economic Research  (NBER)  at http://www.nber.org/patents/. 
+
+These two datasets are Patent Citation Dataset and Patent Description Dataset.  
+
+Patent Citation Dataset:
+******************************
+The patent citation data set contains citations from U.S. patents issued between 1975 and 1999. It has more than 16 million rows and
+the ﬁrst few lines resemble the following: 
+
+“CITING”,”CITED” 
+3858241,956203 
+3858241,1324234 
+
+Patent Description Data:
+*******************************
+
+ It has the patent number, the patent application year, the patent grant year, the number of claims, and other metadata about patents. 
+ This dataset is in CSV format. And it has more than 2.9 million records. As in many real-world data sets, it has many missing values. 
+ Dataset format is described below:
+ 
+ “PATENT”,”GYEAR”,”GDATE”,”APPYEAR”,”COUNTRY”,”POSTATE”,”ASSIGNEE”, ”ASSCODE”,”CLAIMS”,”NCLASS”,”CAT”,”SUBCAT”,”CMADE”,”CRECEIVE”, ”RATIOCIT”,”GENERAL”,”ORIGINAL”,”FWDAPLAG”,”BCKGTLAG”,”SELFCTUB”,  ”SELFCTLB”,”SECDUPBD”,”SECDLWBD” 
+ 3070801,1963,1096,,”BE”,””,,1,,269,6,69,,1,,0,,,,,,, 
+ 3070802,1963,1096,,”US”,”TX”,,1,,2,6,63,,0,,,,,,,,,
