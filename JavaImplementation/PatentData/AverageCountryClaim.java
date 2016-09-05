@@ -16,6 +16,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+/** This program computes average claim per country. 
+*  Input to this program is apat63_99.txt . 
+* Command  for running this program is : 
+*  hadoop  jar  <jar-file-name> AverageCountryClaim    <HDFS path name for apat63_99.txt>  <HDFS path name for output directory>
+**/ 
 
 
 /**
