@@ -11,9 +11,12 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
-
 import java.util.Iterator;
 
+/** This programme invert patent data. Final output of this programme is in the form of : 
+*  citation-patent patent1,patent2,...
+*  Input file to this programme is cite75_99.txt
+**/
 
 /**
  *  * Created by bgautam on 8/18/2016.
