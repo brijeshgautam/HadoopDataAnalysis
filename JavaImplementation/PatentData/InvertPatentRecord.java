@@ -18,9 +18,7 @@ import java.util.Iterator;
 *  Input file to this programme is cite75_99.txt
 **/
 
-/**
- *  * Created by bgautam on 8/18/2016.
- *   */
+
 
 
 class MapPatentRecord extends Mapper<Text, Text, Text, Text> {
